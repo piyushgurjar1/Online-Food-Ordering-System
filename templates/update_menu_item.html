@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Menu Item</title>
+</head>
+<body>
+    <h1>Update Menu Item</h1>
+  
+    <form action="{{ url_for('update_menu_item', item_id=item.id) }}" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" name="name" value="{{ item.name }}" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description">{{ item.description }}</textarea><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="{{ item.price }}" required><br><br>
+
+        <button type="submit">Update Item</button>
+    </form>
+
+    <br><br>
+    <a href="{{ url_for('admin') }}">Back to Admin Dashboard</a>
+</body>
+</html>

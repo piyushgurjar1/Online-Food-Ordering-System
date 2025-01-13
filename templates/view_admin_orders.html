@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Orders</title>
+</head>
+<body>
+    <h1>Manage Orders</h1>
+
+    <h2>All Orders</h2>
+
+    {% if orders %}
+        <ul>
+            {% for order in orders %}
+                <li>
+                    <strong>Order ID:</strong> {{ order.id }} |
+                    <strong>User:</strong> {{ order.user.username }} |
+                    <strong>Menu Item:</strong> {{ order.menu_item.name }} |
+                    <strong>Status:</strong> {{ order.status }}
+
+
+                    {% if order.status != 'Completed' and order.status != 'Canceled' %}
+                        <form action="{{ url_for('complete_order', order_id=order.id) }}" method="POST" style="display:inline;">
+                            <button type="submit">Complete Order</button>
+                        </form>
+
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders to display.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('admin') }}">Back to Admin Dashboard</a>
+</body>
+</html>

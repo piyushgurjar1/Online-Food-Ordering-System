@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Admin Dashboard</h1>
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+
+    <h2>Manage Orders</h2>
+    <a href="{{ url_for('view_admin_orders') }}">View All Orders</a>
+
+    <h2>Manage Menu</h2>
+    <a href="{{ url_for('add_menu_item') }}">Add New Menu Item</a>
+
+    <h2>Existing Menu Items</h2>
+    <hr>
+    <div class="menu-items-list">
+        {% for item in menu_items %}
+        <div class="menu-item">
+            <h3>{{ item.name }}</h3>
+            <p><strong>Description:</strong> {{ item.description }}</p>
+            <p><strong>Price:</strong> Rs- {{ item.price }}</p>
+
+            <div class="actions">
+                <a href="{{ url_for('update_menu_item', item_id=item.id) }}">Edit</a> |
+                <form action="{{ url_for('delete_menu_item', item_id=item.id) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

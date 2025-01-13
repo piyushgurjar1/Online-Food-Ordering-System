@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Page</title>
+</head>
+<body>
+    <h1>Welcome to the User Page</h1>
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+
+    <h2>Menu Items</h2>
+    <div class="menu-items-list">
+        {% for item in menu_items %}
+            <div class="menu-item">
+                <h3>{{ item.name }}</h3>
+                <p><strong>Description:</strong> {{ item.description }}</p>
+                <p><strong>Price:</strong> ${{ item.price }}</p>
+
+                <form action="{{ url_for('place_order', item_id=item.id) }}" method="POST">
+                    <button type="submit">Place Order</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Your Orders</h2>
+    <div class="user-orders">
+        {% for order in orders %}
+            <div class="order-item">
+                <p><strong>Order ID:</strong> {{ order.id }} - <strong>Status:</strong> {{ order.status }}</p>
+                {% if order.status == 'Pending' %}
+                    <form action="{{ url_for('cancel_order', order_id=order.id) }}" method="POST">
+                        <button type="submit">Cancel Order</button>
+                    </form>
+                
+                {% endif %}
+            </div>
+        {% else %}
+            <p>You have no orders yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
